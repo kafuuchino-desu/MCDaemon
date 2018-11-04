@@ -8,12 +8,14 @@ import time
 import sys
 #import mcdplugin #still in develop
 from mcdlog import *
+import mcgit
 
 def notice():
-  print('thanks for using MCDaemon,this software is open source and u can find it here:')
+  print('thanks for using MCDaemon,it\'s open source and u can find it here:')
   print('https://github.com/kafuuchino-desu/MCDaemon')
-  print('please notice that this software is still in alpha version,things may not work well')
+  print('please notice that this software is still in alpha version,it may not work well')
   print('this software is maintained by chino_desu,welcome for your issues and PRs')
+  
 
 class Server(object):
   def __init__(self):
@@ -23,7 +25,17 @@ class Server(object):
 
   def tick(self):
     try:
-      print(self.recv())
+      receive=self.recv()
+      if receive != '':
+        print(receive)
+      for line in receive.splitlines():
+        if line[11:].startswith('[Server Shutdown Thread/INFO]: Stopping server') or line[11:].startswith('[Server thread/INFO]: Stopping server'): #sometimes this two message will only show one of them
+          log('Server stopped by itself.Exiting...')
+          sys.exit(0)
+        if line[11:].startswith('[Server Watchdog/FATAL]: A single server tick took 60.00 seconds (should be max 0.05)'):
+          exitlog('single tick took too long for server and watchdog forced the server off', 1)
+          sys.exit(0)
+        mcgithandler.onServerInfo()
       '''
       for singleplugin in plugins.plugins():
         singleplugin.onServerInfo()
@@ -31,8 +43,7 @@ class Server(object):
       time.sleep(0.01)
     except (KeyboardInterrupt, SystemExit):
       self.stop()
-      sys.exit(0)
-      
+      sys.exit(0) 
 
   def send(self, data): #send a string to STDIN
     self.process.stdin.write(data)
@@ -85,10 +96,11 @@ if __name__ == "__main__":
   '''
   
   server = Server()
+  mcgithandler= mcgit()
   while True:
     try:
       server.tick()
-    except SystemExit:
+    except (SystemExit,IOError):
       log('server stopped')
       sys.exit(0)
     except:
