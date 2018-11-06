@@ -1,14 +1,17 @@
 #!/bin/bash
 # -*- coding: utf-8 -*-
 # this file includes basic minecraft server class functions
+
 from subprocess import Popen, PIPE
 import select
 import fcntl, os
 import time
 import sys
+import traceback
 #import mcdplugin #still in develop
-from mcdlog import *
 import mcgit
+from mcdlog import *
+import serverinfoparser
 
 def notice():
   print('thanks for using MCDaemon,it\'s open source and u can find it here:')
@@ -35,7 +38,8 @@ class Server(object):
         if line[11:].startswith('[Server Watchdog/FATAL]: A single server tick took 60.00 seconds (should be max 0.05)'):
           exitlog('single tick took too long for server and watchdog forced the server off', 1)
           sys.exit(0)
-        mcgithandler.onServerInfo()
+        result = serverinfoparser.parse(line)
+        mcgithandler.onServerInfo(server,result)
       '''
       for singleplugin in plugins.plugins():
         singleplugin.onServerInfo()
@@ -77,9 +81,15 @@ class Server(object):
     self.cmdstop()
     try:
       self.forcestop()
-      print('forced server to stop')
+      log('forced server to stop')
     except:
       pass
+    
+  def say(self, data):
+    self.execute('say ' + data)
+
+  def tell(self, player, data):
+    self.execute('tellraw '+ player + ' {"text":"' + data + '"}')
     
 
 if __name__ == "__main__":
@@ -94,9 +104,17 @@ if __name__ == "__main__":
     errlog('error initalizing plugins,printing traceback')
     sys.exit(0)
   '''
-  
-  server = Server()
-  mcgithandler= mcgit()
+  try:
+    server = Server()
+  except:
+    exitlog('failed to initalize the server.', 1, traceback.format_exc())
+    sys.exit(0)
+  try:
+    mcgithandler= mcgit.mcgit()
+  except:
+    exitlog('failed to initalize plugins.', 1, traceback.format_exc())
+    server.stop()
+    sys.exit(0)
   while True:
     try:
       server.tick()
