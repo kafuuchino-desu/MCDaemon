@@ -1,6 +1,6 @@
 # MCDaemon
 
-[中文文档](https://github.com/kafuuchino-desu/Rainbow-Block-Siege/blob/master/README_cn.md)
+[中文文档](https://github.com/kafuuchino-desu/MCDaemon/blob/master/README_cn.md)
 
 ----------
 A software for automatically controlling minceraft server with support for plugins
