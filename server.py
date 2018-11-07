@@ -8,8 +8,7 @@ import fcntl, os
 import time
 import sys
 import traceback
-#import mcdplugin #still in develop
-import mcgit
+import mcdplugin
 from mcdlog import *
 import serverinfoparser
 
@@ -39,11 +38,11 @@ class Server(object):
           exitlog('single tick took too long for server and watchdog forced the server off', 1)
           sys.exit(0)
         result = serverinfoparser.parse(line)
-        mcgithandler.onServerInfo(server,result)
-      '''
-      for singleplugin in plugins.plugins():
-        singleplugin.onServerInfo()
-      '''
+        for singleplugin in plugins.plugins:
+          try:
+            singleplugin.onServerInfo(server, result)
+          except:
+            errlog('error processing plugin: ' + str(singleplugin),traceback.format_exc())
       time.sleep(0.01)
     except (KeyboardInterrupt, SystemExit):
       self.stop()
@@ -94,26 +93,17 @@ class Server(object):
 
 if __name__ == "__main__":
   notice()
-  log('initalizing plugins') #no use now
-  '''
+  log('initalizing plugins')
   try:
     import mcdplugin
     plugins = mcdplugin.mcdplugin()
-    plugins.initplugins()
   except:
-    errlog('error initalizing plugins,printing traceback')
+    errlog('error initalizing plugins,printing traceback.')
     sys.exit(0)
-  '''
   try:
     server = Server()
   except:
     exitlog('failed to initalize the server.', 1, traceback.format_exc())
-    sys.exit(0)
-  try:
-    mcgithandler= mcgit.mcgit()
-  except:
-    exitlog('failed to initalize plugins.', 1, traceback.format_exc())
-    server.stop()
     sys.exit(0)
   while True:
     try:

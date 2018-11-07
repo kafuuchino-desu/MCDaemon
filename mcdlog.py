@@ -4,9 +4,8 @@ PREFIX='[MCDaemon]:'
 def log(data):
   print(PREFIX + data)
 
-def errlog(data):
-  print(PREFIX + data)
-  traceback.print_exc()
+def errlog(data,traceback=''):
+  print(PREFIX + data + traceback)
 
 def exitlog(data, crit=0, traceback=''):
   if crit == 0:
