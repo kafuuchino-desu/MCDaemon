@@ -34,9 +34,9 @@ server.start():starts the server
 
 server.send(string):send a string to server's STDIN,remember to add a '\n' to execute the command,use execute() if not necessary
 
-server.say(data):a simple wrapper for the `/tellraw @a` command
-
 server.execute(command):execute a command
+
+server.say(data):a simple wrapper for the `/tellraw @a` command
 
 server.tell(player, text):a simple wrapper for the `/tellraw` command
 
