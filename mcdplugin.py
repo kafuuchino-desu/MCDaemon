@@ -22,6 +22,6 @@ class mcdplugin(object):
       if os.path.isfile(filepath):
         if singleFile.endswith('.py'):
           self.pluginList.append(singleFile[:-3])
-          self.plugins.append(load_source('MCDplugin', filepath))
+          self.plugins.append(load_source(singleFile[:-3], filepath))
 
 

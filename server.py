@@ -21,6 +21,9 @@ def notice():
 
 class Server(object):
   def __init__(self):
+    self.start()
+
+  def start(self):
     self.process = Popen('./start.sh', stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True)
     flags = fcntl.fcntl(self.process.stdout, fcntl.F_GETFL)
     fcntl.fcntl(self.process.stdout, fcntl.F_SETFL, flags | os.O_NONBLOCK)
@@ -67,7 +70,6 @@ class Server(object):
     return r.rstrip()
 
   def cmdstop(self): #stop the server using command
-    print(self.recv()) #donnt use tick() here because it can cause loop
     self.send('stop\n')
 
   def forcestop(self): #stop the server using pclose, donnt use it until necessary
@@ -85,7 +87,7 @@ class Server(object):
       pass
     
   def say(self, data):
-    self.execute('say ' + data)
+    self.execute('tellraw @a {"text":"' + data + '"}')
 
   def tell(self, player, data):
     self.execute('tellraw '+ player + ' {"text":"' + data + '"}')
@@ -97,6 +99,9 @@ if __name__ == "__main__":
   try:
     import mcdplugin
     plugins = mcdplugin.mcdplugin()
+    log('loaded plugins: ')
+    for singleplugin in plugins.plugins:
+      log(str(singleplugin))
   except:
     errlog('error initalizing plugins,printing traceback.')
     sys.exit(0)
