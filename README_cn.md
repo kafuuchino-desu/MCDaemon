@@ -1,6 +1,6 @@
 # MCDaemon
 
-[English document](https://github.com/kafuuchino-desu/Rainbow-Block-Siege/blob/master/README.md)
+[English document](https://github.com/kafuuchino-desu/MCDaemon/blob/master/README.md)
 
 ------
 
