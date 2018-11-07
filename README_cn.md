@@ -33,7 +33,9 @@ server.stop():停止服务器
 
 server.start():启动服务器
 
-server.send(string):发送一个字符串到服务端的STDIN，记得在字符串最后面加上`\n`让服务端执行命令
+server.send(string):发送一个字符串到服务端的STDIN，记得在字符串最后面加上`\n`让服务端执行命令，如果没有特殊情况请使用execute()
+
+server.execute(command):执行一条命令
 
 server.say(data):调用服务端的`/tellraw @a`命令并帮你自动填写data到json格式
 
