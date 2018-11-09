@@ -19,7 +19,10 @@ def parse(line):
   result.hour = line[1:3]
   result.min = line[4:6]
   result.sec = line[7:9]
-  result.sourceProcess = re.search(r'[[](.*?)[]]', line[11:]).group()[1:-1]
+  try:
+    result.sourceProcess = re.search(r'[[](.*?)[]]', line[11:]).group()[1:-1]
+  except:
+    pass
   if (result.sourceProcess == 'Server thread/INFO') and (line[33:].startswith('<')):
     player = re.search(r'[<](.*?)[>]', line[33:]).group()[1:-1]
     if player != '':
