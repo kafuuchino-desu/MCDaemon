@@ -12,17 +12,14 @@ class parseResult(object):
     self.sourceProcess = ''
     self.isPlayer = 0
     self.player = ''
-    self.message = ''
+    self.content = ''
 
 def parse(line):
   result = parseResult()
   result.hour = line[1:3]
   result.min = line[4:6]
   result.sec = line[7:9]
-  try:
-    result.sourceProcess = re.search(r'[[](.*?)[]]', line[11:]).group()[1:-1]
-  except:
-    pass
+  result.sourceProcess = re.search(r'[[](.*?)[]]', line[11:]).group()[1:-1]
   if (result.sourceProcess == 'Server thread/INFO') and (line[33:].startswith('<')):
     player = re.search(r'[<](.*?)[>]', line[33:]).group()[1:-1]
     if player != '':
