@@ -8,6 +8,7 @@ import fcntl, os
 import time
 import sys
 import traceback
+import threading
 import mcdplugin
 from mcdlog import *
 import serverinfoparser
@@ -17,7 +18,6 @@ def notice():
   print('https://github.com/kafuuchino-desu/MCDaemon')
   print('please notice that this software is still in alpha version,it may not work well')
   print('this software is maintained by chino_desu,welcome for your issues and PRs')
-  
 
 class Server(object):
   def __init__(self):
@@ -30,23 +30,23 @@ class Server(object):
 
   def tick(self):
     try:
-      receive=self.recv()
+      receive = self.recv()
       if receive != '':
         print(receive)
-      for line in receive.splitlines():
-        if line[11:].startswith('[Server Shutdown Thread/INFO]: Stopping server') or line[11:].startswith('[Server thread/INFO]: Stopping server'): #sometimes this two message will only show one of them
-          log('Server stopped by itself.Exiting...')
-          sys.exit(0)
-        if line[11:].startswith('[Server Watchdog/FATAL]: A single server tick took 60.00 seconds (should be max 0.05)'):
-          exitlog('single tick took too long for server and watchdog forced the server off', 1)
-          sys.exit(0)
-        result = serverinfoparser.parse(line)
-        for singleplugin in plugins.plugins:
-          try:
-            singleplugin.onServerInfo(server, result)
-          except:
-            errlog('error processing plugin: ' + str(singleplugin),traceback.format_exc())
-      time.sleep(0.01)
+        for line in receive.splitlines():
+          if line[11:].startswith('[Server Shutdown Thread/INFO]: Stopping server') or line[11:].startswith('[Server thread/INFO]: Stopping server'): #sometimes this two message will only show one of them
+            log('Server stopped by itself.Exiting...')
+            sys.exit(0)
+          if line[11:].startswith('[Server Watchdog/FATAL]: A single server tick took 60.00 seconds (should be max 0.05)'):
+            exitlog('single tick took too long for server and watchdog forced the server off', 1)
+            sys.exit(0)
+          result = serverinfoparser.parse(line)
+          for singleplugin in plugins.plugins:
+            try:
+              singleplugin.onServerInfo(server, result)
+            except:
+              errlog('error processing plugin: ' + str(singleplugin), traceback.format_exc())
+        time.sleep(1)
     except (KeyboardInterrupt, SystemExit):
       self.stop()
       sys.exit(0) 
@@ -62,7 +62,7 @@ class Server(object):
     r = ''
     pr = self.process.stdout
     while True:
-      if not select.select([pr], [], [], 0)[0]:
+      if not select.select([pr], [], [], 0.1)[0]:
         time.sleep(t)
         continue
       r = pr.read()
@@ -102,8 +102,11 @@ if __name__ == "__main__":
     log('loaded plugins: ')
     for singleplugin in plugins.plugins:
       log(str(singleplugin))
+    log('loaded scheduled plugins:')
+    for singleplugin in plugins.scheduledPlugins:
+      log(str(singleplugin))
   except:
-    errlog('error initalizing plugins,printing traceback.')
+    errlog('error initalizing plugins,printing traceback.', traceback.format_exc())
     sys.exit(0)
   try:
     server = Server()
@@ -118,6 +121,7 @@ if __name__ == "__main__":
       sys.exit(0)
     except:
       errlog('error ticking MCD')
+      print(traceback.format_exc())
       server.stop()
       sys.exit(0)
       

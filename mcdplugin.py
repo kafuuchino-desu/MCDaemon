@@ -12,6 +12,7 @@ class mcdplugin(object):
   def __init__(self):
     self.pluginList = []
     self.plugins = []
+    self.scheduledPlugins = []
     self.initPlugins()
     
   def initPlugins(self): #find plugins and init
@@ -22,6 +23,9 @@ class mcdplugin(object):
       if os.path.isfile(filepath):
         if singleFile.endswith('.py'):
           self.pluginList.append(singleFile[:-3])
-          self.plugins.append(load_source(singleFile[:-3], filepath))
-
-
+          singlePlugin = load_source(singleFile[:-3], filepath)
+          if hasattr(singlePlugin, 'onServerInfo'):
+            self.plugins.append(singlePlugin)
+          if hasattr(singlePlugin, 'onScheduled'):
+            self.scheduledPlugins.append(singlePlugin)
+ 
