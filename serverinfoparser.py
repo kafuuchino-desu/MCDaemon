@@ -27,8 +27,8 @@ def parse(line):
       result.player = player
       content = line[33:].replace('[' + result.sourceProcess + ']: ', '' , 1)
       result.content = content.replace('<' + result.player + '> ', '', 1)
-    else:
-      result.isPlayer = 0
-      result.player = ''
-      result.content = line[11].replace('[' + result.sourceProcess + ']: ' , '' , 1)
+  else:
+    result.isPlayer = 0
+    result.player = ''
+    result.content = line[11:].replace('[' + result.sourceProcess + ']: ' , '' , 1)
   return result
