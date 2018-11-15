@@ -50,7 +50,7 @@ info.isPlayer:if the message is sent by a player
 
 info.player:which player sent this message
 
-info.message:if the message is not sent by a player it will contain the message printed after the sourceProcess, if the message is sent by a player it will ONLY conain the message player sent such as `hi`
+info.content:if the message is not sent by a player it will contain the message printed after the sourceProcess, if the message is sent by a player it will ONLY conain the message player sent such as `hi`
 
 but not `<chino_desu> hi`
 
