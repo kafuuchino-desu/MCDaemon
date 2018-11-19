@@ -3,7 +3,7 @@
 [中文文档](https://github.com/kafuuchino-desu/MCDaemon/blob/master/README_cn.md)
 
 ----------
-A software for automatically controlling minceraft server with support for plugins
+A software for automatically controlling minceraft server with support for plugins  
 tested on Centos7 with python2
 
 ## how to use
