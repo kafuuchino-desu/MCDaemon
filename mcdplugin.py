@@ -10,12 +10,12 @@ from mcdlog import *
 
 class mcdplugin(object):
   def __init__(self):
-    self.pluginList = []
-    self.plugins = []
-    self.scheduledPlugins = []
     self.initPlugins()
     
   def initPlugins(self): #find plugins and init
+    self.pluginList = []
+    self.plugins = []
+    self.scheduledPlugins = []
     path = 'plugins'
     filelist = os.listdir(path)
     for singleFile in filelist:
@@ -28,4 +28,3 @@ class mcdplugin(object):
             self.plugins.append(singlePlugin)
           if hasattr(singlePlugin, 'onScheduled'):
             self.scheduledPlugins.append(singlePlugin)
- 

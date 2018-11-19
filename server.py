@@ -41,9 +41,22 @@ class Server(object):
             exitlog('single tick took too long for server and watchdog forced the server off', 1)
             sys.exit(0)
           result = serverinfoparser.parse(line)
+          if (result.isPlayer == 1) and (result.content == '!!MCDReload'):
+            try:
+              self.say('[MCDaemon] :Reloading plugins')
+              plugins.initPlugins()
+              self.say('loaded plugins: ')
+              for singleplugin in plugins.plugins:
+                self.say(str(singleplugin))
+              self.say('loaded scheduled plugins:')
+              for singleplugin in plugins.scheduledPlugins:
+                self.say(str(singleplugin))
+            except:
+              server.say('error initalizing plugins,check console for detailed information')
+              errlog('error initalizing plugins,printing traceback.', traceback.format_exc())
           for singleplugin in plugins.plugins:
             try:
-              singleplugin.onServerInfo(server, result)
+              singleplugin.onServerInfo(self, result)
             except:
               errlog('error processing plugin: ' + str(singleplugin), traceback.format_exc())
         time.sleep(1)
