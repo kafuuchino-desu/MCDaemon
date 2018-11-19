@@ -54,6 +54,10 @@ info.content:if the message is not sent by a player it will contain the message 
 
 but not `<chino_desu> hi`
 
+##### reloading plugins:
+
+use`!!MCDReload` to reload the plugins
+
 -----
 
 ## About
