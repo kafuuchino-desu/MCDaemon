@@ -55,10 +55,9 @@ class Server(object):
               server.say('error initalizing plugins,check console for detailed information')
               errlog('error initalizing plugins,printing traceback.', traceback.format_exc())
           for singleplugin in plugins.plugins:
-            try:
-              singleplugin.onServerInfo(self, result)
-            except:
-              errlog('error processing plugin: ' + str(singleplugin), traceback.format_exc())
+            t =threading.Thread(target=self.callplugin,args=(result, singleplugin))
+            t.setDaemon(True)
+            t.start()
         time.sleep(1)
     except (KeyboardInterrupt, SystemExit):
       self.stop()
@@ -104,6 +103,12 @@ class Server(object):
 
   def tell(self, player, data):
     self.execute('tellraw '+ player + ' {"text":"' + data + '"}')
+    
+  def callplugin(self, result, plugin):
+    try:
+      plugin.onServerInfo(self, result)
+    except:
+      errlog('error processing plugin: ' + str(singleplugin), traceback.format_exc())
     
 
 if __name__ == "__main__":
