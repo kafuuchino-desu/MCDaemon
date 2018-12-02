@@ -18,13 +18,17 @@ tested on Centos7 with python2
 
 ## Plugin API
 
-this program includes a Plugin API which you can get information from server output and execute a certain command
+### OnServerInfo() API  
 
-to start using the Plugin API and write your Plugin you should follow those steps:
+define a function named as onServerInfo(server, info) in your plugin file(for example `plugin.py`)  
 
-1.create a  .py file in the plugins folder
+### onServerStartup() API
 
-2.define a function named as OnServerInfo(server, info)
+define a define a function named as onServerStartup(server) in your plugin file(for example `plugin.py`)  
+
+----------
+
+## API objects
 
 ##### the server object contains those attributes:
 
