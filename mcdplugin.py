@@ -15,7 +15,7 @@ class mcdplugin(object):
   def initPlugins(self): #find plugins and init
     self.pluginList = []
     self.plugins = []
-    self.scheduledPlugins = []
+    self.startupPlugins = []
     path = 'plugins'
     filelist = os.listdir(path)
     for singleFile in filelist:
@@ -26,5 +26,5 @@ class mcdplugin(object):
           singlePlugin = load_source(singleFile[:-3], filepath)
           if hasattr(singlePlugin, 'onServerInfo'):
             self.plugins.append(singlePlugin)
-          if hasattr(singlePlugin, 'onScheduled'):
-            self.scheduledPlugins.append(singlePlugin)
+          if hasattr(singlePlugin, 'onServerStartup'):
+            self.startupPlugins.append(singlePlugin)

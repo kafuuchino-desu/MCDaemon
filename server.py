@@ -37,7 +37,7 @@ class Server(object):
           if line[11:].startswith('[Server Shutdown Thread/INFO]: Stopping server') or line[11:].startswith('[Server thread/INFO]: Stopping server'): #sometimes this two message will only show one of them
             log('Server stopped by itself.Exiting...')
             sys.exit(0)
-          if line[11:].startswith('[Server Watchdog/FATAL]: A single server tick took 60.00 seconds (should be max 0.05)'):
+          if line[11:].startswith('[Server Watchdog/FATAL]: A single server tick'):
             exitlog('single tick took too long for server and watchdog forced the server off', 1)
             sys.exit(0)
           result = serverinfoparser.parse(line)
@@ -120,8 +120,8 @@ if __name__ == "__main__":
     log('loaded plugins: ')
     for singleplugin in plugins.plugins:
       log(str(singleplugin))
-    log('loaded scheduled plugins:')
-    for singleplugin in plugins.scheduledPlugins:
+    log('loaded startup plugins:')
+    for singleplugin in plugins.startupPlugins:
       log(str(singleplugin))
   except:
     errlog('error initalizing plugins,printing traceback.', traceback.format_exc())
@@ -131,6 +131,13 @@ if __name__ == "__main__":
   except:
     exitlog('failed to initalize the server.', 1, traceback.format_exc())
     sys.exit(0)
+  for singleplugin in plugins.startupPlugins:
+    try:
+      t =threading.Thread(target=singleplugin.onServerStartup,args=(server, ))
+      t.setDaemon(True)
+      t.start()
+    except:
+      errlog('error initalizing startup plugins,printing traceback.', traceback.format_exc())
   while True:
     try:
       server.tick()
