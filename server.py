@@ -88,7 +88,7 @@ class Server(object):
     try:
       pclose(self)
     except:
-      raise ForceStopError
+      raise RuntimeError
       
   def stop(self):
     self.cmdstop()
@@ -96,7 +96,7 @@ class Server(object):
       self.forcestop()
       log('forced server to stop')
     except:
-      pass
+      log('maybe we failed to stop the server.please check if the server is stopped')
     
   def say(self, data):
     self.execute('tellraw @a {"text":"' + data + '"}')
