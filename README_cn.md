@@ -19,13 +19,17 @@
 
 ## 插件API
 
-这个脚本内包含的API支持你读取服务端的输出以及在服务端里面执行特定命令
+### OnServerInfo() API  
 
-要开始写你自己的插件，请阅读以下指南：
+在你的插件文件中定义一个onServerInfo(srever, info)函数(例如 `plugin.py`)  
 
-1.在plugins文件夹里面创建一个.py文件
+### onServerStartup() API
 
-2.定义一个函数OnServerInfo(server, info)
+在你的插件文件中定义一个onServerStartup(srever, info)函数(例如 `plugin.py`)  
+
+----------
+
+## API 对象说明
 
 ##### server对象具有以下几种方法：
 
