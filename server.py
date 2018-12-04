@@ -51,9 +51,33 @@ class Server(object):
               self.say('loaded startup plugins:')
               for singleplugin in plugins.startupPlugins:
                 self.say(str(singleplugin))
+              self.say('loaded onPlayerJoin plugins:')
+              for singleplugin in plugins.onPlayerJoinPlugins:
+                self.say(str(singleplugin))
+              self.say('loaded onPlayerLeavePlugins plugins:')
+              for singleplugin in plugins.onPlayerLeavePlugins:
+                self.say(str(singleplugin))
             except:
               server.say('error initalizing plugins,check console for detailed information')
               errlog('error initalizing plugins,printing traceback.', traceback.format_exc())
+          elif (result.isPlayer == 0) and(result.content.endswith('joined the game')):
+            player = result.content.split(' ')[0]
+            for singleplugin in plugins.onPlayerJoinPlugins:
+              try:
+                t =threading.Thread(target=singleplugin.onPlayerJoin,args=(server, player))
+                t.setDaemon(True)
+                t.start()
+              except:
+                errlog('error processing plugin: ' + str(singleplugin), traceback.format_exc())
+          elif (result.isPlayer == 0) and(result.content.endswith('left the game')):
+            player = result.content.split(' ')[0]
+            for singleplugin in plugins.onPlayerLeavePlugins:
+              try:
+                t =threading.Thread(target=singleplugin.onPlayerLeave,args=(server, player))
+                t.setDaemon(True)
+                t.start()
+              except:
+                errlog('error processing plugin: ' + str(singleplugin), traceback.format_exc())
           for singleplugin in plugins.plugins:
             t =threading.Thread(target=self.callplugin,args=(result, singleplugin))
             t.setDaemon(True)
@@ -96,7 +120,7 @@ class Server(object):
       self.forcestop()
       log('forced server to stop')
     except:
-      log('maybe we failed to stop the server.please check if the server is stopped')
+      pass
     
   def say(self, data):
     self.execute('tellraw @a {"text":"' + data + '"}')
@@ -122,6 +146,12 @@ if __name__ == "__main__":
       log(str(singleplugin))
     log('loaded startup plugins:')
     for singleplugin in plugins.startupPlugins:
+      log(str(singleplugin))
+    log('loaded onPlayerJoin plugins:')
+    for singleplugin in plugins.onPlayerJoinPlugins:
+      log(str(singleplugin))
+    log('loaded onPlayerLeavePlugins plugins:')
+    for singleplugin in plugins.onPlayerLeavePlugins:
       log(str(singleplugin))
   except:
     errlog('error initalizing plugins,printing traceback.', traceback.format_exc())
@@ -149,5 +179,4 @@ if __name__ == "__main__":
       print(traceback.format_exc())
       server.stop()
       sys.exit(0)
-      
 

@@ -16,6 +16,8 @@ class mcdplugin(object):
     self.pluginList = []
     self.plugins = []
     self.startupPlugins = []
+    self.onPlayerJoinPlugins = []
+    self.onPlayerLeavePlugins = []
     path = 'plugins'
     filelist = os.listdir(path)
     for singleFile in filelist:
@@ -28,3 +30,8 @@ class mcdplugin(object):
             self.plugins.append(singlePlugin)
           if hasattr(singlePlugin, 'onServerStartup'):
             self.startupPlugins.append(singlePlugin)
+          if hasattr(singlePlugin, 'onPlayerJoin'):
+            self.onPlayerJoinPlugins.append(singlePlugin)
+          if hasattr(singlePlugin, 'onPlayerLeave'):
+            self.onPlayerLeavePlugins.append(singlePlugin)
+
