@@ -27,6 +27,10 @@
 
 在你的插件文件中定义一个onServerStartup(srever, info)函数(例如 `plugin.py`)  
 
+### onPlayerJoin() 和 onPlayerLeave() API
+
+在你的插件中定义一个onPlayerJoin(server, playername) 或者 onPlayerLeave(server, playername) 函数，playername变量是一个str，包含那个正在退出或加入服务器的玩家名
+
 ----------
 
 ## API 对象说明
