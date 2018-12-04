@@ -26,6 +26,10 @@ define a function named as onServerInfo(server, info) in your plugin file(for ex
 
 define a define a function named as onServerStartup(server) in your plugin file(for example `plugin.py`)  
 
+### onPlayerJoin() and onPlayerLeave() API
+
+define a function named as onPlayerJoin(server, playername) or onPlayerLeave(server, playername),the playername variable is a string containing the name of which player is joining/leaving server
+
 ----------
 
 ## API objects
