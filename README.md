@@ -11,7 +11,7 @@ tested on Centos7 with python2
 1.download the latest [release](https://github.com/kafuuchino-desu/MCDaemon/releases)  
 2.unzip it and create a shell script named as `start.sh`   
 3.type your server start commands in the script (i suggest you write like this `cd server && java -xxx` so you can put your server files in the server folder to organize the files easier)
-4.install the requirments using `pip install -r requirments.txt`
+4.install the requirments using `pip install -r requirements.txt`
 5.you can start the server using `python server.py` now
 
 ------
