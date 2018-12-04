@@ -48,8 +48,8 @@ class Server(object):
               self.say('loaded plugins: ')
               for singleplugin in plugins.plugins:
                 self.say(str(singleplugin))
-              self.say('loaded scheduled plugins:')
-              for singleplugin in plugins.scheduledPlugins:
+              self.say('loaded startup plugins:')
+              for singleplugin in plugins.startupPlugins:
                 self.say(str(singleplugin))
             except:
               server.say('error initalizing plugins,check console for detailed information')
