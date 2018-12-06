@@ -20,15 +20,15 @@ tested on Centos7 with python2
 
 ### OnServerInfo() API  
 
-define a function named as onServerInfo(server, info) in your plugin file(for example `plugin.py`)  
+(non blocking)define a function named as onServerInfo(server, info) in your plugin file(for example `plugin.py`)  
 
 ### onServerStartup() API
 
-define a define a function named as onServerStartup(server) in your plugin file(for example `plugin.py`)  
+(non blocking)define a define a function named as onServerStartup(server) in your plugin file(for example `plugin.py`)  
 
 ### onPlayerJoin() and onPlayerLeave() API
 
-define a function named as onPlayerJoin(server, playername) or onPlayerLeave(server, playername),the playername variable is a string containing the name of which player is joining/leaving server
+(non blocking)define a function named as onPlayerJoin(server, playername) or onPlayerLeave(server, playername),the playername variable is a string containing the name of which player is joining/leaving server
 
 ----------
 
