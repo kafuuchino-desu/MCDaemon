@@ -18,6 +18,22 @@ def notice():
   print('https://github.com/kafuuchino-desu/MCDaemon')
   print('please notice that this software is still in alpha version,it may not work well')
   print('this software is maintained by chino_desu,welcome for your issues and PRs')
+  
+def listplugins(plugins):
+  result = ''
+  result = result + 'loaded plugins:\n'
+  for singleplugin in plugins.plugins:
+    result = result +str(singleplugin) + '\n'
+  result = result +'loaded startup plugins:\n'
+  for singleplugin in plugins.startupPlugins:
+    result = result +str(singleplugin) + '\n'
+  result = result + 'loaded onPlayerJoin plugins:\n'
+  for singleplugin in plugins.onPlayerJoinPlugins:
+    result = result + str(singleplugin) + '\n'
+  result = result +'loaded onPlayerLeavePlugins plugins:\n'
+  for singleplugin in plugins.onPlayerLeavePlugins:
+    result = result +str(singleplugin) + '\n'
+  return result
 
 class Server(object):
   def __init__(self):
@@ -45,18 +61,9 @@ class Server(object):
             try:
               self.say('[MCDaemon] :Reloading plugins')
               plugins.initPlugins()
-              self.say('loaded plugins: ')
-              for singleplugin in plugins.plugins:
-                self.say(str(singleplugin))
-              self.say('loaded startup plugins:')
-              for singleplugin in plugins.startupPlugins:
-                self.say(str(singleplugin))
-              self.say('loaded onPlayerJoin plugins:')
-              for singleplugin in plugins.onPlayerJoinPlugins:
-                self.say(str(singleplugin))
-              self.say('loaded onPlayerLeavePlugins plugins:')
-              for singleplugin in plugins.onPlayerLeavePlugins:
-                self.say(str(singleplugin))
+              plugins_inf = listplugins(plugins)
+              for singleline in plugins_inf.splitlines():
+                server.say(singleline)
             except:
               server.say('error initalizing plugins,check console for detailed information')
               errlog('error initalizing plugins,printing traceback.', traceback.format_exc())
@@ -141,18 +148,8 @@ if __name__ == "__main__":
   try:
     import mcdplugin
     plugins = mcdplugin.mcdplugin()
-    log('loaded plugins: ')
-    for singleplugin in plugins.plugins:
-      log(str(singleplugin))
-    log('loaded startup plugins:')
-    for singleplugin in plugins.startupPlugins:
-      log(str(singleplugin))
-    log('loaded onPlayerJoin plugins:')
-    for singleplugin in plugins.onPlayerJoinPlugins:
-      log(str(singleplugin))
-    log('loaded onPlayerLeavePlugins plugins:')
-    for singleplugin in plugins.onPlayerLeavePlugins:
-      log(str(singleplugin))
+    plugins_inf = listplugins(plugins)
+    print(plugins_inf)
   except:
     errlog('error initalizing plugins,printing traceback.', traceback.format_exc())
     sys.exit(0)
