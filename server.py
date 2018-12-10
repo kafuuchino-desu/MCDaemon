@@ -38,6 +38,7 @@ def listplugins(plugins):
 class Server(object):
   def __init__(self):
     self.start()
+    stop_flag = 0
 
   def start(self):
     self.process = Popen('./start.sh', stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True)
@@ -51,8 +52,11 @@ class Server(object):
         print(receive)
         for line in receive.splitlines():
           if line[11:].startswith('[Server Shutdown Thread/INFO]: Stopping server') or line[11:].startswith('[Server thread/INFO]: Stopping server'): #sometimes this two message will only show one of them
-            log('Server stopped by itself.Exiting...')
-            sys.exit(0)
+            if stop_flag = 1:
+              stop_flag = 0
+            else:
+              log('Server stopped by itself.Exiting...')
+              sys.exit(0)
           if line[11:].startswith('[Server Watchdog/FATAL]: A single server tick'):
             exitlog('single tick took too long for server and watchdog forced the server off', 1)
             sys.exit(0)
@@ -122,6 +126,7 @@ class Server(object):
       raise RuntimeError
       
   def stop(self):
+    stop_flag = 1
     self.cmdstop()
     try:
       self.forcestop()
