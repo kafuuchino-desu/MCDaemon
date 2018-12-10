@@ -11,7 +11,7 @@ tested on Centos7 with python2
 1.download the latest [release](https://github.com/kafuuchino-desu/MCDaemon/releases)  
 2.unzip it and create a shell script named as `start.sh`   
 3.type your server start commands in the script (i suggest you write like this `cd server && java -xxx` so you can put your server files in the server folder to organize the files easier)
-4.install the requirments using `pip install -r requirments.txt`
+4.install the requirments using `pip install -r requirements.txt`
 5.you can start the server using `python server.py` now
 
 ------
@@ -20,15 +20,15 @@ tested on Centos7 with python2
 
 ### OnServerInfo() API  
 
-define a function named as onServerInfo(server, info) in your plugin file(for example `plugin.py`)  
+(non blocking)define a function named as onServerInfo(server, info) in your plugin file(for example `plugin.py`)  
 
 ### onServerStartup() API
 
-define a define a function named as onServerStartup(server) in your plugin file(for example `plugin.py`)  
+(non blocking)define a define a function named as onServerStartup(server) in your plugin file(for example `plugin.py`)  
 
 ### onPlayerJoin() and onPlayerLeave() API
 
-define a function named as onPlayerJoin(server, playername) or onPlayerLeave(server, playername),the playername variable is a string containing the name of which player is joining/leaving server
+(non blocking)define a function named as onPlayerJoin(server, playername) or onPlayerLeave(server, playername),the playername variable is a string containing the name of which player is joining/leaving server
 
 ----------
 
