@@ -52,7 +52,7 @@ class Server(object):
         print(receive)
         for line in receive.splitlines():
           if line[11:].startswith('[Server Shutdown Thread/INFO]: Stopping server') or line[11:].startswith('[Server thread/INFO]: Stopping server'): #sometimes this two message will only show one of them
-            if stop_flag = 1:
+            if stop_flag == 1:
               stop_flag = 0
             else:
               log('Server stopped by itself.Exiting...')
@@ -135,10 +135,10 @@ class Server(object):
       pass
     
   def say(self, data):
-    self.execute('tellraw @a {"text":"' + data + '"}')
+    self.execute('tellraw @a {"text":"' + str(data) + '"}')
 
   def tell(self, player, data):
-    self.execute('tellraw '+ player + ' {"text":"' + data + '"}')
+    self.execute('tellraw '+ player + ' {"text":"' + str(data) + '"}')
     
   def callplugin(self, result, plugin):
     try:
