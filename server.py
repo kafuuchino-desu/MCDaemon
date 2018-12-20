@@ -51,6 +51,7 @@ class Server(object):
     self.process = Popen('./start.sh', stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True)
     flags = fcntl.fcntl(self.process.stdout, fcntl.F_GETFL)
     fcntl.fcntl(self.process.stdout, fcntl.F_SETFL, flags | os.O_NONBLOCK)
+    log('Server Running at PID:'+str(self.process.pid))
 
   def tick(self):
     try:
