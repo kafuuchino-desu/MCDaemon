@@ -35,6 +35,13 @@ def listplugins(plugins):
     result = result +str(singleplugin) + '\n'
   return result
 
+def getInput(server):
+  inp = ''
+  while True:
+    inp = raw_input()
+    if inp != '' :
+      server.execute(inp)
+
 class Server(object):
   def __init__(self):
     self.start()
@@ -170,6 +177,9 @@ if __name__ == "__main__":
       t.start()
     except:
       errlog('error initalizing startup plugins,printing traceback.', traceback.format_exc())
+  cmd =threading.Thread(target=getInput,args=(server, ))
+  cmd.setDaemon(True)
+  cmd.start()
   while True:
     try:
       server.tick()
