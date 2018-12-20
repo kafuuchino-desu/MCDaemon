@@ -128,7 +128,7 @@ class Server(object):
 
   def forcestop(self): #stop the server using pclose, donnt use it until necessary
     try:
-      pclose(self)
+      self.process.kill()
     except:
       raise RuntimeError
       
