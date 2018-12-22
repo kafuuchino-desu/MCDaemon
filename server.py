@@ -152,7 +152,7 @@ class Server(object):
     try:
       plugin.onServerInfo(self, result)
     except:
-      errlog('error processing plugin: ' + str(singleplugin), traceback.format_exc())
+      errlog('error processing plugin: ' + str(plugin), traceback.format_exc())
     
 
 if __name__ == "__main__":
