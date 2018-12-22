@@ -13,6 +13,8 @@ import mcdplugin
 from mcdlog import *
 import serverinfoparser
 
+stop_flag = 0
+
 def notice():
   print('thanks for using MCDaemon,it\'s open source and u can find it here:')
   print('https://github.com/kafuuchino-desu/MCDaemon')
@@ -45,7 +47,6 @@ def getInput(server):
 class Server(object):
   def __init__(self):
     self.start()
-    stop_flag = 0
 
   def start(self):
     self.process = Popen('./start.sh', stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True)
@@ -55,6 +56,7 @@ class Server(object):
 
   def tick(self):
     try:
+      global stop_flag
       receive = self.recv()
       if receive != '':
         print(receive)
