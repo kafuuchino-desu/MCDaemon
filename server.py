@@ -42,7 +42,10 @@ def getInput(server):
   while True:
     inp = raw_input()
     if inp != '' :
-      server.execute(inp)
+      if inp == 'stop':
+        server.cmdstop()
+      else:
+        server.execute(inp)
 
 class Server(object):
   def __init__(self):
@@ -62,11 +65,12 @@ class Server(object):
         print(receive)
         for line in receive.splitlines():
           if line[11:].startswith('[Server Shutdown Thread/INFO]: Stopping server') or line[11:].startswith('[Server thread/INFO]: Stopping server'): #sometimes this two message will only show one of them
-            if stop_flag == 1:
-              stop_flag = 0
+            if stop_flag > 0:
+              log('Plugin called a reboot')
             else:
               log('Server stopped by itself.Exiting...')
               sys.exit(0)
+            stop_flag -= 1
           if line[11:].startswith('[Server Watchdog/FATAL]: A single server tick'):
             exitlog('single tick took too long for server and watchdog forced the server off', 1)
             sys.exit(0)
@@ -136,7 +140,8 @@ class Server(object):
       raise RuntimeError
       
   def stop(self):
-    stop_flag = 1
+    global stop_flag
+    stop_flag = 2
     self.cmdstop()
     try:
       self.forcestop()
