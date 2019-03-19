@@ -3,32 +3,41 @@
 [中文文档](https://github.com/kafuuchino-desu/MCDaemon/blob/master/README_cn.md)
 
 ----------
-A software for automatically controlling minceraft server with support for plugins  
+
+A software for automatically controlling minceraft server with support for plugins.
 tested on Centos7 with python2
 
 ## how to use
 
 1.download the latest [release](https://github.com/kafuuchino-desu/MCDaemon/releases)  
+
 2.unzip it and create a shell script named as `start.sh`   
+
 3.type your server start commands in the script (i suggest you write like this `cd server && java -xxx` so you can put your server files in the server folder to organize the files easier)
+
 4.install the requirments using `pip install -r requirements.txt`
-5.you can start the server using `python server.py` now
+
+5.you can start the server by typing `python server.py`
 
 ------
 
 ## Plugin API
 
-### OnServerInfo() API  
+Plugins reside within `plugins` folder, upon server startup, plugins will be automatically mounted. To write a plugin, you simply define the following functions in your plugin file.
 
-(non blocking)define a function named as onServerInfo(server, info) in your plugin file(for example `plugin.py`)  
+All plugins will be executed in its own thread, thus there is no concern for I/O blocking, you can still use synchronous I/O functions if you wish.
+
+### onServerInfo() API
+
+Define a function named as onServerInfo(server, info) in your plugin file(for example `plugin.py`)  
 
 ### onServerStartup() API
 
-(non blocking)define a define a function named as onServerStartup(server) in your plugin file(for example `plugin.py`)  
+Define a function named as onServerStartup(server) in your plugin file(for example `plugin.py`)  
 
 ### onPlayerJoin() and onPlayerLeave() API
 
-(non blocking)define a function named as onPlayerJoin(server, playername) or onPlayerLeave(server, playername),the playername variable is a string containing the name of which player is joining/leaving server
+Define a function named as onPlayerJoin(server, playername) or onPlayerLeave(server, playername),the playername variable is a string containing the name of which player is joining/leaving server
 
 ----------
 
