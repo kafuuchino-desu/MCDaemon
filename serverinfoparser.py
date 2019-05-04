@@ -28,7 +28,7 @@ def parse(line):
     if player != '':
       result.isPlayer = 1
       result.player = player
-      content = line[33:].replace('[' + result.sourceProcess + ']: ', '' , 1)
+      content = line[11:].replace('[' + result.sourceProcess + ']: ', '' , 1)
       result.content = content.replace('<' + result.player + '> ', '', 1)
   else:
     result.isPlayer = 0
