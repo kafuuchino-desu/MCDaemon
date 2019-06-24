@@ -1,4 +1,5 @@
-# MCDaemon
+# MCDaemon(V1.0)
+2.0 is going to be a full rewrite, 1.0 won'nt have ANY bug fix anymore because I'm working on 2.0.
 
 [中文文档](https://github.com/kafuuchino-desu/MCDaemon/blob/master/README_cn.md)
 
