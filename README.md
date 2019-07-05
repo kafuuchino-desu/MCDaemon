@@ -74,7 +74,8 @@ but not `<chino_desu> hi`
 
 ##### reloading plugins:
 
-use`!!MCDReload` to reload the plugins
+use`!!MCDReload` in game to reload the plugins
+type `MCDReload` in console to reload the plugins
 
 -----
 
