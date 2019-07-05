@@ -44,6 +44,12 @@ def getInput(server):
     if inp != '' :
       if inp == 'stop':
         server.cmdstop()
+      elif inp == 'MCDReload':
+        print('reloading')
+        plugins.initPlugins()
+        plugins_inf = listplugins(plugins)
+        for singleline in plugins_inf.splitlines():
+          print(singleline)
       else:
         server.execute(inp)
 
@@ -81,24 +87,24 @@ class Server(object):
               plugins.initPlugins()
               plugins_inf = listplugins(plugins)
               for singleline in plugins_inf.splitlines():
-                self.say(singleline)
+                server.say(singleline)
             except:
-              self.say('error initalizing plugins,check console for detailed information')
+              server.say('error initalizing plugins,check console for detailed information')
               errlog('error initalizing plugins,printing traceback.', traceback.format_exc())
-          elif (result.isPlayer == 0) and(not result.content.startwith('*')) and(result.content.endswith('joined the game')):
+          elif (result.isPlayer == 0) and(result.content.endswith('joined the game')):
             player = result.content.split(' ')[0]
             for singleplugin in plugins.onPlayerJoinPlugins:
               try:
-                t =threading.Thread(target=singleplugin.onPlayerJoin,args=(self, player))
+                t =threading.Thread(target=singleplugin.onPlayerJoin,args=(server, player))
                 t.setDaemon(True)
                 t.start()
               except:
                 errlog('error processing plugin: ' + str(singleplugin), traceback.format_exc())
-          elif (result.isPlayer == 0) and(not result.content.startwith('*')) and(result.content.endswith('left the game')):
+          elif (result.isPlayer == 0) and(result.content.endswith('left the game')):
             player = result.content.split(' ')[0]
             for singleplugin in plugins.onPlayerLeavePlugins:
               try:
-                t =threading.Thread(target=singleplugin.onPlayerLeave,args=(self, player))
+                t =threading.Thread(target=singleplugin.onPlayerLeave,args=(server, player))
                 t.setDaemon(True)
                 t.start()
               except:
